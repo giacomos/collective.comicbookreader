@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+    <metal:content-core fill-slot="content-core">
+        <metal:block define-macro="content-core"
+            tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                        content_type context/get_content_type|context/Format;
+                        b_size python:2; b_size request/b_size | b_size;
+                        b_start python:0;b_start request/b_start | b_start;
+                        order python:1;order request/order | order;
+                        img_urls python:view.getImgList(b_start, b_size)">
+<!--         
+            <div id="cbr-preview">
+                <tal:previews repeat="url img_urls">
+                    <img style="max-width:48%" tal:attributes="src python: context.absolute_url() + '/' + url" />
+                </tal:previews>
+                <br />
+                <a href="#" tal:attributes="href python: context.absolute_url() + '/cbr_view?start=' + str(min(0, int(b_start) - int(b_size)))">Prev</a>
+                <a href="#" tal:attributes="href python: context.absolute_url() + '/cbr_view?start=' + str(int(b_start)+int(b_size))">Next</a>
+            </div>
+-->
+         <div class="cbr-controls" style="float:right;">
+            <a href="#"
+                title="Dual View"
+                tal:condition="python: b_size > 1"
+                tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&b_size:int=1'">
+               <img alt="Single View" title="Single View" 
+                   tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/view_single.gif';" />
+            </a>
+            <a href="#"
+                title="Dual View"
+                tal:condition="python: b_size < 2"
+                tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&b_size:int=2'">
+               <img alt="Double View" title="Double View" 
+                   tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/view_double.gif';" />
+            </a>
+            <a href="#"
+                title="Reverse View"
+                tal:condition="python: b_size > 1 and order != -1"
+                tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&order:int=-1'">
+               
+               <img alt="Reverse View" title="Reverse View" 
+                   tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/reverse.png';" />
+ 
+            </a>
+            <a href="#"
+                title="Normal View"
+                tal:condition="python:b_size > 1 and order != 1"
+                tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&order:int=1'">
+               <img alt="Normal View" title="Normal View" 
+                   tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/reverse.png';" />
+            </a>
+        </div>
+            <div class="visualClear"><!-- --></div>
+            <tal:list define="images view/listImageFiles;
+                              batch python:Batch(images, int(b_size), int(b_start), orphan=1);">
+            <div id="cbr-preview">
+                <div metal:use-macro="context/batch_macros/macros/navigation" />
+                <div tal:define="ordered_images python: [i for i in batch]"
+                    tal:repeat="image python: order == -1 and ordered_images[::-1] or ordered_images">
+                    <img style="max-width:48%; max-height: 500px; float:left"
+                        tal:attributes="src python: context.absolute_url() + '/' + image['url'];" />
+                </div>
+                <div class="visualClear"><!-- --></div>
+                <div metal:use-macro="context/batch_macros/macros/navigation" />
+            </div>
+            </tal:list>
+        </metal:block>
+    </metal:content-core>
+
+</body>
+
+</html>
+

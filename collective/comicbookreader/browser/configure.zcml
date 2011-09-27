@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="collective.comicbookread">
+
+
+    <browser:resourceDirectory
+        name="collective.comicbookreader.images"
+        directory="images"
+        />
+
+    <browser:page
+        for="*"
+        name="cbr_view"
+        class=".view.CBRView"
+        template="cbrview.pt"
+        permission="zope2.View"
+        />
+
+    <browser:view
+        for="*"
+        name="extract"
+        class=".extract.ExtractView"
+        permission="zope2.View"
+        />
+</configure>
