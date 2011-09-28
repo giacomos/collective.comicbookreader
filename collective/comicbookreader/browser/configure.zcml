@@ -6,22 +6,30 @@
 
 
     <browser:resourceDirectory
+        name="collective.comicbookreader.javascript"
+        directory="javascript"
+        layer=".interfaces.ICBRLayer"
+        />
+    <browser:resourceDirectory
         name="collective.comicbookreader.images"
         directory="images"
+        layer=".interfaces.ICBRLayer"
         />
 
     <browser:page
-        for="*"
+        for="Products.ATContentTypes.interfaces.file.IATFile"
         name="cbr_view"
         class=".view.CBRView"
         template="cbrview.pt"
         permission="zope2.View"
+        layer=".interfaces.ICBRLayer"
         />
 
     <browser:view
-        for="*"
+        for="Products.ATContentTypes.interfaces.file.IATFile"
         name="extract"
         class=".extract.ExtractView"
         permission="zope2.View"
+        layer=".interfaces.ICBRLayer"
         />
 </configure>

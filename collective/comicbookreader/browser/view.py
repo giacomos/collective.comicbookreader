@@ -1,37 +1,62 @@
-from Products.Five import BrowserView
-import zipfile
-from StringIO import StringIO
 import mimetypes
+import zipfile
+try:
+    import tarfile
+    TARMODULE_EXISTS = True
+except:
+    TARMODULE_EXISTS = False
+try:
+    import rarfile
+    RARMODULE_EXISTS = True
+except ImportError:
+    RARMODULE_EXISTS = False
+from StringIO import StringIO
+from Products.Five import BrowserView
+from tempfile import NamedTemporaryFile
+from collective.comicbookreader.config import BOOKS_MIMETYPES
 
 class CBRView(BrowserView):
     """ .. """
 
-    def is_zip(self):
+    def listImageFiles(self):
         ct = self.context.content_type
-        if ct == 'application/zip':
+        results = []
+        tmp = NamedTemporaryFile()
+        tmp.write(self.context.data)
+        tmp.flush()
+        fl = []
+        if ct in BOOKS_MIMETYPES['zip']:
+            fl = self.listZipFiles(tmp)
+        if ct in BOOKS_MIMETYPES['tar']:
+            fl = self.listTarFiles(tmp)
+        if ct in BOOKS_MIMETYPES['rar']:
+            fl = self.listRarFiles(tmp)
+        return [{'filename': i, 'url': 'extract?fn=%s'% i} for i in fl]
+
+    def is_image(self, name = ''):
+        guessed_type = mimetypes.guess_type(name)
+        if guessed_type[0] and guessed_type[0].startswith('image'):
             return True
         else:
             return False
 
-
-    def getImgList(self, start = 0, size = 2):  
-        file_data = StringIO(self.context.data)
-        fz = zipfile.ZipFile(file_data)
-        start = int(start)
-        size = int(size)
-        end = start + size
-        names = fz.filelist[start:end]
-        urls = [ "extract?fn=%s" % i.filename for i in names ]
-        return urls
-
-    def listImageFiles(self):
+    def listZipFiles(self, tmp_file):
         try:
-            file_data = StringIO(self.context.data)
-            fz = zipfile.ZipFile(file_data)
-            images = []
-            for i in fz.filelist:
-                if mimetypes.guess_type(i.filename)[0].startswith('image'):
-                    images.append({'filename': i.filename, 'url': 'extract?fn=%s'% i.filename})
-            return images
-        except zipfile.BadZipfile, e:
+            f = zipfile.ZipFile(tmp_file.name)
+            return [i for i in f.namelist() if self.is_image(i)]
+        except:
+            return []
+        
+    def listRarFiles(self, tmp_file):
+        try:
+            f = rarfile.RarFile(tmp_file.name)
+            return [i for i in f.namelist() if self.is_image(i)]
+        except:
+            return []
+
+    def listTarFiles(self, tmp_file):
+        try:
+            f = tarfile.TarFile(tmp_file.name)
+            return [i for i in f.getnames() if self.is_image(i)]
+        except:
             return []

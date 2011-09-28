@@ -9,7 +9,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="collective.comicbookreader"
+      title="Comic Book Reader"
       directory="profiles/default"
       description="Installs the collective.comicbookreader package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
