@@ -20,42 +20,45 @@ class ExtractView(BrowserView):
 
     def __call__(self):
         filename = self.request.form.get('fn',None)
-        if not filename:
+        index = self.request.form.get('i',None)
+        if not filename and not index:
             return None
         ct = self.context.content_type
         data = None
         if ct in BOOKS_MIMETYPES['zip']:
-            data = self.manageZip(filename)
+            filename,data = self.manageZip(filename, index)
         if ct in BOOKS_MIMETYPES['tar']:
-            data = self.manageTar(filename)
+            filename, data = self.manageTar(filename, index)
         if ct in BOOKS_MIMETYPES['rar']:
-            data = self.manageRar(filename)
-        mime_type, tmp = mimetypes.guess_type(filename)
-        if mime_type is None or not mime_type.startswith('image'):
-            return None
-        fname = filename.rsplit('/',1)[-1]
+            filename, data = self.manageRar(filename, index)
         if data:
-            self.request.response.setHeader("Content-disposition",mime_type)
+            fname = filename.rsplit('/',1)[-1]
+            guessed_type = mimetypes.guess_type(filename)
             self.request.response.setHeader('Content-Disposition', 'attachment;filename=' + fname)
-            self.request.response.setHeader("Content-type",mime_type)
+            self.request.response.setHeader("Content-type", guessed_type[0])
             self.request.response.write(data)
-#        return self.request
 
-    def manageZip(self, filename):
+    def is_image(self, name = ''):
+        guessed_type = mimetypes.guess_type(name)
+        if guessed_type[0] and guessed_type[0].startswith('image'):
+            return True
+        else:
+            return False
+
+    def manageZip(self, filename = None, index = None):
         try:
             file_data = StringIO(self.context.data)
             fz = zipfile.ZipFile(file_data)
-            f = fz.open(filename)
-        except zipfile.BadZipfile, e:
-            return None
-        except KeyError, e:
-            return None
-        mime_type, tmp = mimetypes.guess_type(filename)
-        if mime_type is None or not mime_type.startswith('image'):
-            return None
-        return f.read()
+            images = [i for i in fz.namelist() if self.is_image(i)]
+            if filename and filename not in images:
+                return (None, None)
+            name = filename and filename or images[int(index)]
+            img = fz.open(name)
+            return (name, img.read())
+        except:
+            return (None,None)
 
-    def manageRar(self, filename):
+    def manageRar(self, filename = None, index = None):
         if not RARMODULE_EXISTS:
             return None
         try:
@@ -64,15 +67,19 @@ class ExtractView(BrowserView):
                 tmp.write(self.context.data)
                 tmp.flush()
                 frar = rarfile.RarFile(tmp.name)
-                f = frar.open(filename)
+                images = [i for i in frar.namelist() if self.is_image(i)]
+                if filename and filename not in images:
+                    return (None, None)
+                name = filename and filename or images[int(index)]
+                f = frar.open(name)
                 data = f.read()
                 tmp.close()
                 f.close()
-                return data
+                return (name, data)
         except:
-            return None
+            return (None, None)
 
-    def manageTar(self, filename):
+    def manageTar(self, filename = None, index = None):
         if not TARMODULE_EXISTS:
             return None
         try:

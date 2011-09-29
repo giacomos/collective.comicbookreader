@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+
+<metal:block use-macro="here/global_defines/macros/defines" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:define-macro="master">
+
+    <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+        Get the global cache headers located in global_cache_settings.
+    </metal:cache>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title tal:content="context/Title"></title>
+
+    <link rel="stylesheet" href="ui/default/base.css" type="text/css" media="all"
+        tal:attributes="href string:${context/portal_url}/base.css" />
+    <link rel="stylesheet" href="ui/default/public.css" type="text/css" media="all"
+        tal:attributes="href string:${context/portal_url}/public.css" />
+    <link rel="stylesheet" href="ui/default/slides.css" type="text/css" media="projection" id="slideProj"
+        tal:attributes="href string:${context/portal_url}/s5_slides.css" />
+    <link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" 
+        tal:attributes="href string:${context/portal_url}/s5_outline.css" />
+    <link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" 
+        tal:attributes="href string:${context/portal_url}/s5_print.css" />
+    <link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" 
+        tal:attributes="href string:${context/portal_url}/s5_opera.css" />
+    <link rel="stylesheet" type="text/css" media="screen"
+        tal:attributes="href string:${context/portal_url}/++resource++collective.comicbookreader.stylesheets/cbr.css" />
+    
+    <script type="text/javascript" 
+        tal:attributes="src string:${context/portal_url}/jquery.js"></script>
+    <script type="text/javascript" 
+        tal:attributes="src string:${context/portal_url}/jquery-integration.js"></script>
+    <script type="text/javascript" 
+        tal:attributes="src string:${context/portal_url}/++resource++collective.comicbookreader.javascript/cbr.js"></script>
+
+    <metal:baseslot define-slot="base">
+      <base tal:attributes="href context/@@plone/renderBase" /><!--[if lt IE 7]></base><![endif]-->
+    </metal:baseslot>
+    
+</head>
+<body id="cbr-presentation"
+    tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                  b_size python:2; b_size request/b_size | b_size;
+                  b_start python:0;b_start request/b_start | b_start;
+                  order python:1;order request/order | order;
+                  images view/listImageFiles;
+                  batch python:Batch(images, int(b_size), int(b_start), orphan=1);">
+
+<noscript>Note: The slideshow mode requires javascript.</noscript>
+<div id="cbr-images-list" tal:define="active_images python: range(b_start, b_start + b_size)">
+   <p id="cbr-start" tal:content="b_start">0</p>
+   <p id="cbr-size" tal:content="b_size">2</p>
+   <p id="cbr-extracturl" tal:content="string:${context/absolute_url}/extract?fn=">base-url</p>
+   <p tal:repeat="image images"
+       tal:content="python:image['filename']"
+       tal:attributes="class python: repeat['image'].index in active_images and 'cbr-image active' or 'cbr-image';
+                       id string:cbr-index-${repeat/image/index}"></p>
+</div>
+
+       <div id="cbr-controls">
+           <ul>
+               <li class="cbr-li-first">
+                   <a href="view"
+                       id="cbr-prev-arrow"
+                       class="cbr-arrow cbr-control"
+                       title="Previous Page"
+                       tal:define="prev_start python: b_start - b_size >= 0 and b_start - b_size or 0"
+                       tal:attributes="href python:'%s/cbrpresentation?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, prev_start)">
+                       Previous Page
+                   </a>
+               </li>
+               <li>
+                   <span id="cbr-position"
+                       class="cbr-control">
+                       <span id="cbr-show-index" tal:content="python:str(b_start+1)" />/
+                       <span id="cbr-show-total" tal:content="python: view.ceil(len(images),b_size)" />
+
+                   </span>
+               </li>
+               <li>
+                   <a href="view"
+                       id="cbr-next-arrow"
+                       class="cbr-arrow cbr-control"
+                       title="Next Page"
+                       tal:define="next_start python: b_start + b_size <= len(images) and b_start + b_size or len(images)"
+                       tal:attributes="href python:'%s/cbrpresentation?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, next_start)">
+                       Next Page
+                   </a>
+               </li>
+               <li tal:condition="python: b_size > 1">
+                   <a href="#"
+                       id="cbr-double-page"
+                       class="cbr-control"
+                       title="Switch to Single Page"
+                       tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_size:int=1&b_start:int=' + str(b_start)">
+                       Double Page
+                   </a>
+               </li>
+               <li tal:condition="python: b_size < 2">
+                   <a href="#"
+                       id="cbr-single-page"
+                       title="Switch to Dual Page"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_size:int=2&b_start:int=' + str(b_start)">
+                       Single Page
+                   </a>
+               </li>
+               <li tal:condition="python:b_size > 1 and order != -1">
+                   <a href="#"
+                       id="cbr-switch-mode"
+                       class="cbr-control"
+                       title="Switch to Reversed Mode"
+                       tal:condition="python: b_size > 1 and order != -1"
+                       tal:attributes="href python: context.absolute_url() + '/cbrpresentation?order:int=-1&b_start:int=' + str(b_start)">
+                       Normal Mode
+                   </a>
+               </li>
+               <li tal:condition="python:b_size > 1 and order != 1">
+                   <a href="#"
+                       title="Switch to Normal Mode"
+                       id="cbr-switch-mode"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_start:int=' + str(b_start) + '&order:int=1'">
+                       Reversed Mode
+                   </a>
+               </li>
+               <li tal:condition="python:b_size == 1">
+                   <span class="cbr-control" title="Switch disabled">
+                       <img tal:attributes="src string:${context/portal_url}/++resource++collective.comicbookreader.images/switch.png" />
+                   </span>
+               </li>
+               <li class="cbr-li-last">
+                   <a href="#"
+                       id="cbr-fullscreen-close"
+                       title="Return to Normal Screen"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/view'">
+                       Normal Screen
+                   </a>
+               </li>
+           </ul>
+         </div>
+         <div id="cbr-preview">
+             <tal:slots define="ordered_images batch"
+                 tal:repeat="image python: order == -1 and ordered_images[::-1] or ordered_images">
+                 <img class="cbr-imageslot"
+                     tal:attributes="id string:cbr-imageslot-${repeat/image/index};
+                                     src python: context.absolute_url() + '/' + image['url'];" />
+             </tal:slots>
+
+</body>
+</html>

@@ -15,12 +15,25 @@
         directory="images"
         layer=".interfaces.ICBRLayer"
         />
+    <browser:resourceDirectory
+        name="collective.comicbookreader.stylesheets"
+        directory="stylesheets"
+        layer=".interfaces.ICBRLayer"
+        />
 
     <browser:page
         for="Products.ATContentTypes.interfaces.file.IATFile"
         name="cbr_view"
         class=".view.CBRView"
         template="cbrview.pt"
+        permission="zope2.View"
+        layer=".interfaces.ICBRLayer"
+        />
+    <browser:page
+        for="Products.ATContentTypes.interfaces.file.IATFile"
+        name="cbrpresentation"
+        class=".view.CBRView"
+        template="cbrpresentation.pt"
         permission="zope2.View"
         layer=".interfaces.ICBRLayer"
         />

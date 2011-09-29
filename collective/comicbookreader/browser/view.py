@@ -14,9 +14,13 @@ from StringIO import StringIO
 from Products.Five import BrowserView
 from tempfile import NamedTemporaryFile
 from collective.comicbookreader.config import BOOKS_MIMETYPES
+import math
 
 class CBRView(BrowserView):
     """ .. """
+
+    def ceil(self, images, size):
+        return int(math.ceil(images*1.0/size))
 
     def listImageFiles(self):
         ct = self.context.content_type

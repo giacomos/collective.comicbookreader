@@ -18,51 +18,104 @@
                         batch python:Batch(images, int(b_size), int(b_start), orphan=1);">
 
        <span class="discreet" i18n:translate="">You can use left/right arrows to navigate the book</span>
-       <div class="cbr-controls" style="float:right;">
-         <a href="#"
-            title="Switch to Single View"
-            tal:condition="python: b_size > 1"
-            tal:attributes="href python: context.absolute_url() + '/view?b_size:int=1&b_start:int=' + str(b_start)">
-           <img alt="Single View"
-                tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/double-face.png';" />
-         </a>
-         <a href="#"
-            title="Switch to Dual View"
-            tal:condition="python: b_size < 2"
-            tal:attributes="href python: context.absolute_url() + '/view?b_size:int=2&b_start:int=' + str(b_start)">
-           <img alt="Double View"
-                tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/single-face.png';" />
-         </a>
-         <img alt="Single View" title="Normal Mode" tal:condition="python: b_size < 2"
-                tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/single.png';" />
-         <a href="#"
-           condition="python:b_size > 1 and order != -1"  
-           title="Switch to Reversed Mode"
-           tal:condition="python: b_size > 1 and order != -1"
-           tal:attributes="href python: context.absolute_url() + '/view?order:int=-1&b_start:int=' + str(b_start)">
+       <div id="cbr-images-list" style="display:none;"
+           tal:define="active_images python: range(b_start, b_start + b_size)">
+           <p id="cbr-start" tal:content="b_start">0</p>
+           <p id="cbr-size" tal:content="b_size">2</p>
+           <p id="cbr-extracturl" tal:content="string:${context/absolute_url}/extract?fn=">base-url</p>
+           <p tal:repeat="image images"
+               tal:content="python:image['filename']"
+               tal:attributes="class python: repeat['image'].index in active_images and 'cbr-image active' or 'cbr-image';
+                               id string:cbr-index-${repeat/image/index}"></p>
+       </div>
+       <div id="cbr-controls">
+           <ul>
+               <li class="cbr-li-first">
+                   <a href="view"
+                       id="cbr-prev-arrow"
+                       class="cbr-arrow cbr-control"
+                       title="Previous Page"
+                       tal:define="prev_start python: b_start - b_size >= 0 and b_start - b_size or 0"
+                       tal:attributes="href python:'%s/view?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, prev_start)">
+                       Previous Page
+                   </a>
+               </li>
+               <li>
+                   <span id="cbr-position"
+                       class="cbr-control">
+                       <span id="cbr-show-index" tal:content="python:str(b_start+1)" />/
+                       <span id="cbr-show-total" tal:content="python: view.ceil(len(images),b_size)" />
 
-           <img alt="Reversed View"
-                tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/normal.png';" />
-         </a>
-         <a href="#"
-           title="Switch to Normal Mode"
-           class="cbr-mode-reverted-active"
-           tal:condition="python:b_size > 1 and order != 1"
-           tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&order:int=1'">
-           <img alt="Normal View"
-                   tal:attributes="src python: context.portal_url() + '/++resource++collective.comicbookreader.images/reverted.png';" />
-         </a>
+                   </span>
+               </li>
+               <li>
+                   <a href="view"
+                       id="cbr-next-arrow"
+                       class="cbr-arrow cbr-control"
+                       title="Next Page"
+                       tal:define="next_start python: b_start + b_size <= len(images) and b_start + b_size or len(images)"
+                       tal:attributes="href python:'%s/view?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, next_start)">
+                       Next Page
+                   </a>
+               </li>
+               <li tal:condition="python: b_size > 1">
+                   <a href="#"
+                       id="cbr-double-page"
+                       class="cbr-control"
+                       title="Switch to Single Page"
+                       tal:attributes="href python: context.absolute_url() + '/view?b_size:int=1&b_start:int=' + str(b_start)">
+                       Double Page
+                   </a>
+               </li>
+               <li tal:condition="python: b_size < 2">
+                   <a href="#"
+                       id="cbr-single-page"
+                       title="Switch to Dual Page"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/view?b_size:int=2&b_start:int=' + str(b_start)">
+                       Single Page
+                   </a>
+               </li>
+               <li tal:condition="python:b_size > 1 and order != -1">
+                   <a href="#"
+                       id="cbr-switch-mode"
+                       class="cbr-control"
+                       title="Switch to Reversed Mode"
+                       tal:condition="python: b_size > 1 and order != -1"
+                       tal:attributes="href python: context.absolute_url() + '/view?order:int=-1&b_start:int=' + str(b_start)">
+                       Normal Mode
+                   </a>
+               </li>
+               <li tal:condition="python:b_size > 1 and order != 1">
+                   <a href="#"
+                       title="Switch to Normal Mode"
+                       id="cbr-switch-mode"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/view?b_start:int=' + str(b_start) + '&order:int=1'">
+                       Reversed Mode
+                   </a>
+               </li>
+               <li class="cbr-li-last">
+                   <a href="#"
+                       id="cbr-fullscreen"
+                       title="Switch to Full Screen"
+                       class="cbr-control"
+                       tal:attributes="href python: context.absolute_url() + '/cbrpresentation'">
+                       Full Screen 
+                   </a>
+               </li>
+           </ul>
          </div>
-         <div class="visualClear"><!-- --></div>
          <div id="cbr-preview">
              <div id="top-batch-controlbar">
                 <div id="top-batch-controlbar" metal:use-macro="context/batch_macros/macros/navigation" />
              </div>
-             <div tal:define="ordered_images python: [i for i in batch]"
+             <tal:slots define="ordered_images python: [i for i in batch]"
                  tal:repeat="image python: order == -1 and ordered_images[::-1] or ordered_images">
-                 <img style="max-width:48%; max-height: 500px; float:left"
-                     tal:attributes="src python: context.absolute_url() + '/' + image['url'];" />
-             </div>
+                 <img class="cbr-imageslot"
+                     tal:attributes="id string:cbr-imageslot-${repeat/image/index};
+                                     src python: context.absolute_url() + '/' + image['url'];" />
+             </tal:slots>
              <div class="visualClear"><!-- --></div>
          </div>
         </metal:block>
