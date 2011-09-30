@@ -10,7 +10,6 @@ try:
     RARMODULE_EXISTS = True
 except ImportError:
     RARMODULE_EXISTS = False
-from StringIO import StringIO
 from Products.Five import BrowserView
 from tempfile import NamedTemporaryFile
 from collective.comicbookreader.config import BOOKS_MIMETYPES
@@ -24,7 +23,6 @@ class CBRView(BrowserView):
 
     def listImageFiles(self):
         ct = self.context.content_type
-        results = []
         tmp = NamedTemporaryFile()
         tmp.write(self.context.data)
         tmp.flush()

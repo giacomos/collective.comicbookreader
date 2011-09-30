@@ -1,74 +1,72 @@
-.cbr-imageslot{
-    max-width:100%;
-}
-
-#cbr-images-list{
+#cbr-controller{
     display:none;
 }
 
-#cbr-controls{
+#cbr-menu{
     margin: 0px auto;
     width:213px;
 }
-#cbr-controls ul{
-/*    background-color: #CECECE;*/
-    background: url("++resource++collective.comicbookreader.images/gradient-menu.png") repeat scroll 0 0 #CECECE;
-    -moz-border-radius: 10px;
-    border-radius: 10px 10px 10px 10px;
-    margin-left:0px;
-    border: 1px solid #DDDDDD;
+
+#cbr-menu img{
+    margin-bottom:2px;
+    margin-left:2px;
 }
 
-#cbr-controls li{
-    display:inline;
+#cbr-menu ul{
+    -moz-border-radius: 10px;
+    background: url("++resource++collective.comicbookreader.images/gradient-menu.png") repeat scroll 0 0 #CECECE;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px 10px 10px 10px;
+    margin-left:0px;
+}
+
+#cbr-menu li{
     border-left: 1px solid #EEEEEE;
     border-right: 1px solid #AAAAAA;
+    display:inline;
+    text-indent: -9999em;
 }
-#cbr-controls .cbr-li-first {
+
+#cbr-position{
+    color: #444444;
+    display: inline-block;
+    font-size: 110%;
+    font-weight: bold;
+    padding-right: 5px;
+    text-align: center;
+    text-indent: 0px;
+    width: 40px;
+}
+
+#cbr-menu .cbr-li-first {
     border-left:0px;
 }
-#cbr-controls .cbr-li-last {
+#cbr-menu .cbr-li-last {
     border-right:0px;
 }
 
-.cbr-control{
+#cbr-menu a{
     width: 18px;
     height: 18px;
     border-bottom:0px !important;
     display:inline-block;
-/*    float:left;*/
     padding:4px;
 }
 
-#cbr-prev-arrow{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -27px 5px;
-    text-indent: -9999em;
-    border-left: 0px;
-}
-#cbr-next-arrow{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat 5px 5px;
+.cbr-arrow{
+    display:none;
     text-indent: -9999em;
 }
-#cbr-double-page{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -58px 5px;
-    text-indent: -9999em;
-}
-#cbr-single-page{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -89px 5px;
-    text-indent: -9999em;
-}
-#cbr-fullscreen{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -123px 5px;
-    text-indent: -9999em;
-}
-#cbr-switch-mode{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -154px 5px;
-    text-indent: -9999em;
-}
-#cbr-fullscreen-close{
-    background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -187px 5px;
-    text-indent: -9999em;
-}
+
+/******************* Menu buttons images ******************/
+
+#cbr-prev-arrow{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -27px 5px; border-left: 0px; }
+#cbr-next-arrow{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat 5px 5px; }
+#cbr-double-page{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -58px 5px; }
+#cbr-single-page{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -89px 5px; }
+#cbr-fullscreen{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -123px 5px; }
+#cbr-switch-mode{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -154px 5px; }
+#cbr-fullscreen-close{ background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -187px 5px; }
 #cbr-prev-arrow:hover { background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat -27px -27px; }
 #cbr-next-arrow:hover { background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat scroll 5px -27px; }
 #cbr-double-page:hover { background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat scroll -58px -27px; }
@@ -77,46 +75,19 @@
 #cbr-fullscreen:hover { background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat scroll -123px -27px; }
 #cbr-fullscreen-close:hover { background: transparent url(++resource++collective.comicbookreader.images/controls.png) no-repeat scroll -187px -27px; }
 
-#cbr-position{
-    font-weight: bold;
-    font-size: 110%;
-    padding-right: 5px;
-    width: 40px;
-    text-align:center;
-    color:#444;
-}
+/******************** Images box ************************/
 
-#cbr-preview{
-    margin-top: 3px;
-}
+#cbr-images-box{ margin-top: 3px; }
+.cbr-slotcontainer{ width: 50%; float:left; }
+.cbr-slotcontainer.cbr-single{ width:100%; }
+#cbr-imageslot-0{ float:right; }
+#cbr-imageslot-1{ float:left; }
+.cbr-imageslot{ max-width:100%; }
 
-.cbr-arrow{
-    display:none;
-}
+/************ Presentation specific rules ****************/
 
-#cbr-presentation{
-    background-color: #222222;
-}
-#cbr-presentation #cbr-controls ul{
+#cbr-presentation{ background-color: #222222; }
+#cbr-presentation #cbr-menu ul{
     border-radius: 0 0 10px 10px;
     -moz-border-radius: 0 0 10px 10px;
-}
-#cbr-controls img{
-    margin-bottom:2px;
-    margin-left:2px;
-}
-
-.cbr-slotcontainer{
-    width: 50%;
-    float:left;
-}
-.cbr-slotcontainer.cbr-single{
-    width:100%;
-}
-
-.cbr-slotcontainer #cbr-imageslot-0{
-float:right;
-}
-.cbr-slotcontainer #cbr-imageslot-1{
-float:left;
 }

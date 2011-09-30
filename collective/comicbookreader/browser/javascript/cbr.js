@@ -4,8 +4,8 @@
         function previousPage(){
             var start = parseInt($('#cbr-start').text());
             var size = parseInt($('#cbr-size').text());
-            var names_list = $('#cbr-images-list .cbr-image');
-            var base_url = $('#cbr-images-list #cbr-extracturl').text();
+            var names_list = $('#cbr-controller .cbr-image');
+            var base_url = $('#cbr-controller #cbr-extracturl').text();
             if (start - size >= 0){ 
                 names_list.removeClass('active');
                 for(i=0; i < size; i++){
@@ -25,8 +25,8 @@
         function nextPage(){
             var start = parseInt($('#cbr-start').text());
             var size = parseInt($('#cbr-size').text());
-            var names_list = $('#cbr-images-list .cbr-image');
-            var base_url = $('#cbr-images-list #cbr-extracturl').text();
+            var names_list = $('#cbr-controller .cbr-image');
+            var base_url = $('#cbr-controller #cbr-extracturl').text();
             if (start + size < names_list.length){ 
                 names_list.removeClass('active');
                 for(i=0; i < size; i++){
