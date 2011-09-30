@@ -5,6 +5,12 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="collective.comicbookreader">
+<head>
+    <tal:js metal:fill-slot="javascript_head_slot">
+        <script type="text/javascript" 
+            tal:attributes="src string:${context/portal_url}/++resource++collective.comicbookreader.javascript/cbr.js"></script>
+    </tal:js>
+</head>
 
 <body>
   <metal:content-core fill-slot="content-core">
