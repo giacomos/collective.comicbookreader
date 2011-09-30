@@ -66,7 +66,7 @@
         $('.cbr-arrow').css('display','inline-block');
         $('#cbr-switch-mode').click(function(event){
             event.preventDefault();
-            $('.cbr-imageslot:first').insertAfter($('.cbr-imageslot').eq(1));
+            $('.cbr-slotcontainer:first').insertAfter($('.cbr-slotcontainer').eq(1));
         });
     });
 })(jQuery);

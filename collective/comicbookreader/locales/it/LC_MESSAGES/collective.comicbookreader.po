@@ -1,0 +1,84 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-09-30 18:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.comicbookreader\n"
+
+#: ./browser/cbrpresentation.pt:102
+#: ./browser/cbrview.pt:66
+msgid "Double Page"
+msgstr "Doppia Facciata"
+
+#: ./browser/cbrview.pt:116
+msgid "Full Screen"
+msgstr "Schermo intero"
+
+#: ./browser/cbrpresentation.pt:90
+#: ./browser/cbrview.pt:54
+msgid "Next Page"
+msgstr "Pagina successiva"
+
+#: ./browser/cbrpresentation.pt:124
+#: ./browser/cbrview.pt:88
+msgid "Normal Mode"
+msgstr "Modalità Normale"
+
+#: ./browser/cbrpresentation.pt:152
+msgid "Normal Screen"
+msgstr "Grandezza normale"
+
+#: ./browser/cbrpresentation.pt:70
+#: ./browser/cbrview.pt:34
+msgid "Previous Page"
+msgstr "Pagina precedente"
+
+#: ./browser/cbrpresentation.pt:152
+msgid "Return to Normal Screen"
+msgstr "Esci"
+
+#: ./browser/cbrpresentation.pt:136
+#: ./browser/cbrview.pt:100
+msgid "Reversed Mode"
+msgstr "Modalità invertita"
+
+#: ./browser/cbrpresentation.pt:113
+#: ./browser/cbrview.pt:77
+msgid "Single Page"
+msgstr "Facciata singola"
+
+#: ./browser/cbrpresentation.pt:124
+#: ./browser/cbrview.pt:88
+msgid "Switch images"
+msgstr "Scambia le immagini"
+
+#: ./browser/cbrpresentation.pt:113
+#: ./browser/cbrview.pt:77
+msgid "Switch to Dual Page"
+msgstr "Passa a Doppia Facciata"
+
+#: ./browser/cbrview.pt:116
+msgid "Switch to Full Screen"
+msgstr "Passa a schermo intero"
+
+#: ./browser/cbrpresentation.pt:102
+#: ./browser/cbrview.pt:66
+msgid "Switch to Single Page"
+msgstr "Passa a Facciata Singola"
+
+#: ./browser/cbrview.pt:20
+msgid "You can use left/right arrows to navigate the book"
+msgstr ""
+

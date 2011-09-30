@@ -6,7 +6,8 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:define-macro="master">
+      metal:define-macro="master"
+      i18n:domain="collective.comicbookreader">
 
     <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
         Get the global cache headers located in global_cache_settings.
@@ -70,6 +71,8 @@
                        id="cbr-prev-arrow"
                        class="cbr-arrow cbr-control"
                        title="Previous Page"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:define="prev_start python: b_start - b_size >= 0 and b_start - b_size or 0"
                        tal:attributes="href python:'%s/cbrpresentation?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, prev_start)">
                        Previous Page
@@ -88,6 +91,8 @@
                        id="cbr-next-arrow"
                        class="cbr-arrow cbr-control"
                        title="Next Page"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:define="next_start python: b_start + b_size <= len(images) and b_start + b_size or len(images)"
                        tal:attributes="href python:'%s/cbrpresentation?b_size:int=%s&b_start:int=%s' % (context.absolute_url(), b_size, next_start)">
                        Next Page
@@ -98,6 +103,8 @@
                        id="cbr-double-page"
                        class="cbr-control"
                        title="Switch to Single Page"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_size:int=1&b_start:int=' + str(b_start)">
                        Double Page
                    </a>
@@ -107,6 +114,8 @@
                        id="cbr-single-page"
                        title="Switch to Dual Page"
                        class="cbr-control"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_size:int=2&b_start:int=' + str(b_start)">
                        Single Page
                    </a>
@@ -115,7 +124,9 @@
                    <a href="#"
                        id="cbr-switch-mode"
                        class="cbr-control"
-                       title="Switch to Reversed Mode"
+                       title="Switch images"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:condition="python: b_size > 1 and order != -1"
                        tal:attributes="href python: context.absolute_url() + '/cbrpresentation?order:int=-1&b_start:int=' + str(b_start)">
                        Normal Mode
@@ -123,9 +134,11 @@
                </li>
                <li tal:condition="python:b_size > 1 and order != 1">
                    <a href="#"
-                       title="Switch to Normal Mode"
+                       title="Switch images"
                        id="cbr-switch-mode"
                        class="cbr-control"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:attributes="href python: context.absolute_url() + '/cbrpresentation?b_start:int=' + str(b_start) + '&order:int=1'">
                        Reversed Mode
                    </a>
@@ -140,6 +153,8 @@
                        id="cbr-fullscreen-close"
                        title="Return to Normal Screen"
                        class="cbr-control"
+                       i18n:translate=""
+                       i18n:attributes="title"
                        tal:attributes="href python: context.absolute_url() + '/view'">
                        Normal Screen
                    </a>
@@ -149,9 +164,11 @@
          <div id="cbr-preview">
              <tal:slots define="ordered_images batch"
                  tal:repeat="image python: order == -1 and ordered_images[::-1] or ordered_images">
-                 <img class="cbr-imageslot"
+              <div class="cbr-slotcontainer">
+                 <img class="cbr-imageslot" alt="Image Slot"
                      tal:attributes="id string:cbr-imageslot-${repeat/image/index};
-                                     src python: context.absolute_url() + '/' + image['url'];" />
+                     src python: context.absolute_url() + '/' + image['url'];" />
+             </div>
              </tal:slots>
 
 </body>

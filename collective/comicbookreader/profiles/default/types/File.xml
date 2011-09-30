@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-<object name="File"
-    meta_type="Factory-based Type Information with dynamic views"
-    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-    <property name="view_methods">
-        <element value="file_view"/>
-        <element value="cbr_view"/>
+<object name="File">
+    <property name="view_methods" purge="False">
+        <element value="cbrview"/>
     </property>
 </object>

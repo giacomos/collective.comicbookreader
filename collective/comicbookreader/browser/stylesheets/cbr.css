@@ -1,7 +1,5 @@
 .cbr-imageslot{
-    max-width:48%;
-    max-height: 500px;
-    float:left;
+    max-width:100%;
 }
 
 #cbr-images-list{
@@ -10,13 +8,15 @@
 
 #cbr-controls{
     margin: 0px auto;
-    display:table;
+    width:213px;
 }
 #cbr-controls ul{
-    background-color: #CECECE;
+/*    background-color: #CECECE;*/
+    background: url("++resource++collective.comicbookreader.images/gradient-menu.png") repeat scroll 0 0 #CECECE;
     -moz-border-radius: 10px;
-    border-radius: 10px;
+    border-radius: 10px 10px 10px 10px;
     margin-left:0px;
+    border: 1px solid #DDDDDD;
 }
 
 #cbr-controls li{
@@ -87,7 +87,7 @@
 }
 
 #cbr-preview{
-    margin-top: 10px;
+    margin-top: 3px;
 }
 
 .cbr-arrow{
@@ -104,4 +104,19 @@
 #cbr-controls img{
     margin-bottom:2px;
     margin-left:2px;
+}
+
+.cbr-slotcontainer{
+    width: 50%;
+    float:left;
+}
+.cbr-slotcontainer.cbr-single{
+    width:100%;
+}
+
+.cbr-slotcontainer #cbr-imageslot-0{
+float:right;
+}
+.cbr-slotcontainer #cbr-imageslot-1{
+float:left;
 }
