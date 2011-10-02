@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+This module provides the view for images extraction
+"""
 import mimetypes
 import zipfile
 try:
@@ -16,7 +20,8 @@ from tempfile import NamedTemporaryFile
 from collective.comicbookreader.config import BOOKS_MIMETYPES
 
 class ExtractView(BrowserView):
-    """ .. """
+    """ Browserview that provides the view for images extraction
+    """
 
     def __call__(self):
         filename = self.request.form.get('fn',None)
@@ -39,6 +44,7 @@ class ExtractView(BrowserView):
             self.request.response.write(data)
 
     def is_image(self, name = ''):
+        """ Returns True if the guessed mimetype is an image."""
         guessed_type = mimetypes.guess_type(name)
         if guessed_type[0] and guessed_type[0].startswith('image'):
             return True
@@ -46,6 +52,7 @@ class ExtractView(BrowserView):
             return False
 
     def manageZip(self, filename = None, index = None):
+        """ Extracts data from zip archives """
         try:
             file_data = StringIO(self.context.data)
             fz = zipfile.ZipFile(file_data)
@@ -59,6 +66,7 @@ class ExtractView(BrowserView):
             return (None,None)
 
     def manageRar(self, filename = None, index = None):
+        """ Extracts data from rar archives """
         if not RARMODULE_EXISTS:
             return None
         try:
@@ -80,6 +88,7 @@ class ExtractView(BrowserView):
             return (None, None)
 
     def manageTar(self, filename = None, index = None):
+        """ Extracts data from tar archives. """
         if not TARMODULE_EXISTS:
             return None
         try:

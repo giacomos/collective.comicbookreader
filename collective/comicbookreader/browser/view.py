@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+This module contains cbrview for file contents
+"""
 import mimetypes
 import zipfile
 try:
@@ -16,7 +20,9 @@ from collective.comicbookreader.config import BOOKS_MIMETYPES
 import math
 
 class CBRView(BrowserView):
-    """ .. """
+    """
+    Browserview that provides cbrview for file contents
+    """
 
     def ceil(self, images, size):
         return int(math.ceil(images*1.0/size))

@@ -17,7 +17,7 @@ setup(name='collective.comicbookreader',
       keywords='zope plone comic book reader',
       author='Giacomo Spettoli',
       author_email='giacomo.spettoli@gmail.com',
-      url='http://svn.plone.org/svn/collective/',
+      url='https://github.com/giacomos/collective.comicbookreader',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective'],
@@ -25,6 +25,8 @@ setup(name='collective.comicbookreader',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'zipfile',
+          'rarfile',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
@@ -33,6 +35,4 @@ setup(name='collective.comicbookreader',
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
-      paster_plugins=["ZopeSkel"],
       )

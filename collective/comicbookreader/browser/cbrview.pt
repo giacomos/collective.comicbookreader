@@ -23,7 +23,6 @@
                         images view/listImageFiles;
                         batch python:Batch(images, int(b_size), int(b_start), orphan=1);">
 
-       <span class="discreet" i18n:translate="">You can use left/right arrows to navigate the book</span>
        <div id="cbr-controller" style="display:none;"
            tal:define="active_images python: range(b_start, b_start + b_size)">
            <p id="cbr-start" tal:content="b_start">0</p>
